@@ -1,0 +1,118 @@
+@import 'nib'
+@import 'nib/gradients'
+
+global-reset()
+reset-html5()
+
+html
+body
+    padding-left auto
+    padding-right auto
+
+h3
+    font-size 24px
+    color white
+
+#content
+    height 800px
+    width 1480px
+    padding 5px
+    background-color #232323;
+    //background linear-gradient(top, #cfe2f3ff, #bed1e2ee, #cfe2f3ff);
+    //background-image url('/assets/Hoh_Rainforest_phone.jpg')
+    //background-image url('/assets/Paradise-love-angels-22242012-1440-900.jpg')
+    //background-size cover
+    //background-repeat no-repeat
+
+#create-content
+    width 100%
+    height 100%
+
+#video-layout
+    height 785px
+    width 1470px
+    background-color #232323;
+
+#video-header
+    width 100%
+    height 40px
+
+.button
+    border-style solid
+    border-width 1px
+    border-color black
+    border-radius 5px
+    background linear-gradient(top, #cfe2f3ff, #bed1e2ee, #cfe2f3ff)
+    text-align middle
+    padding 5px
+    margin 5px
+    opacity 1
+    &:hover
+        background #cfe2f3ff
+    &:active 
+        background linear-gradient(top, #cfe2f3ff, #dff3f4ff, #cfe2f3ff)
+
+#createBtn
+    width 180px
+    height 80px
+    position relative
+    font-size 28px 
+
+#hangupBtn
+    float left
+    width 70px
+    height 30px
+    font-size 18px 
+
+#inviteBtn
+    float right
+    width 70px
+    height 30px
+    font-size 18px 
+
+#video-body
+    width 1470px
+    height 370px
+
+.video-box
+    width 480px
+    height 360px
+    background-color #888
+    margin 5px
+
+#video-src-one
+    animation-duration 2s
+//    margin-left 490px
+
+#message-body
+    width 1470px
+    height 370px
+
+#message-src-one
+    background-color #fdfdfd
+    animation-duration 2s
+//    margin-left 490px
+
+#message-src-two, #message-src-three
+    background-color #afafaf
+
+.messages
+    width 474px
+    height 355px
+    margin 5px
+    resize none
+    font-size 18px
+
+//@keyframes slideout
+//    from
+//	margin-left 490px
+	
+//    to
+//	margin-left 250px
+
+//@keyframes slidein
+//    from
+//	margin-left 250px
+
+//    to 
+//	margin-left 490px

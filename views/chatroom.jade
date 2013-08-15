@@ -1,0 +1,10 @@
+div(id='dialog', title='openvri.com')
+      div#video-layout
+        div#video-header
+          input(id='hangupBtn', class='button', type='button', value='done', title='Stop sending video')
+          input(id='inviteBtn', class='button', type='button', value='invite', title='Give the URL to allow a member to join this room')
+        div#video-body
+            video(id='video-src-one', class='video-box', autoplay, controls)
+        div#message-body
+            textarea(id='message-src-one', class='messages')
+

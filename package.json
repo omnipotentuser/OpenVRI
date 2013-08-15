@@ -1,0 +1,13 @@
+{
+    "name": "openvri",
+    "version": "0.0.1",
+    "description": "An Embedded VRI Generator",
+
+    "dependencies": { 
+	"socket.io": "~0.9.16",
+	"express": "3.x",
+	"jade": "~0.31.2",
+	"stylus": "*",
+	"nib": "*"
+    }
+}
