@@ -30,8 +30,8 @@ $(function() {
 		var orient = createDisplay();
 		if(orient !== undefined){
 		    var peer = new Peer(socket, pid, p_roomName, orient);
-		    $('#video-src-one').attr('animation-name', 'slideout');
-		    $('#message-src-one').attr('animation-name', 'slideout');
+		    $('#_openvri_video-src-one').attr('animation-name', 'slideout');
+		    $('#_openvri_message-src-one').attr('animation-name', 'slideout');
 		}
 		peers.push(peer);
 	    }
@@ -44,8 +44,8 @@ $(function() {
 	    var orient = createDisplay();
 	    if(orient !== undefined){
 		var peer = new Peer(socket, message.id, p_roomName, orient);
-		$('#video-src-one').attr('animation-name', 'slideout');
-		$('#message-src-one').attr('animation-name', 'slideout');
+		$('#_openvri_video-src-one').attr('animation-name', 'slideout');
+		$('#_openvri_message-src-one').attr('animation-name', 'slideout');
 	    }
 	    peer.buildClient(true);
 	    peers.push(peer);
@@ -90,14 +90,14 @@ $(function() {
 		    if(peers[i].hasPC()){
 			var orient = peers[i].getOrientation();
 			if( orient == 'two' ) {
-			    $('#video-src-two').remove();
-			    $('#message-src-two').remove();
+			    $('#_openvri_video-src-two').remove();
+			    $('#_openvri_message-src-two').remove();
 			} else if (orient == 'three') {
-			    $('#video-src-three').remove();
-			    $('#message-src-three').remove();
+			    $('#_openvri_video-src-three').remove();
+			    $('#_openvri_message-src-three').remove();
 			}
-			$('#video-src-one').attr('animation-name', 'slidein');
-			$('#message-src-one').attr('animation-name', 'slidein');
+			$('#_openvri_video-src-one').attr('animation-name', 'slidein');
+			$('#_openvri_message-src-one').attr('animation-name', 'slidein');
 			peers.splice(i, 1);
 			return;
 		    };
@@ -125,13 +125,13 @@ $(function() {
     function createDisplay() {
 	var orientation = undefined;
 	trace('begin creating display');
-	if( $('#video-src-two').length  == 0){
-	    $('#video-body').append("<video id='video-src-two' class='video-box'  autoplay='autoplay' controls='controls'>");
-	    $('#message-body').append("<textarea id='message-src-two' class='messages' disabled='disabled'>");
+	if( $('#_openvri_video-src-two').length  == 0){
+	    $('#_openvri_video-body').append("<video id='_openvri_video-src-two' class='_openvri_video-box'  autoplay='autoplay' controls='controls'>");
+	    $('#_openvri_message-body').append("<textarea id='_openvri_message-src-two' class='_openvri_messages' disabled='disabled'>");
 	    orientation = 'two';
-	} else if( $('#video-src-three').length == 0 ) {
-	    $('#video-body').append("<video id='video-src-three' class='video-box'  autoplay='autoplay' controls='controls'>");
-	    $('#message-body').append("<textarea id='message-src-three' class='messages' disabled='disabled'>");
+	} else if( $('#_openvri_video-src-three').length == 0 ) {
+	    $('#_openvri_video-body').append("<video id='_openvri_video-src-three' class='_openvri_video-box'  autoplay='autoplay' controls='controls'>");
+	    $('#_openvri_message-body').append("<textarea id='_openvri_message-src-three' class='_openvri_messages' disabled='disabled'>");
 	    orientation = 'three';
 	} else {
 	    trace('Somebody is trying to join');
@@ -154,14 +154,14 @@ $(function() {
 			    var orient = peers[i].getOrientation();
 			    if(orient == 'two'){
 				if(message.code == '8')
-				    $('#message-src-two').val( $('#message-src-two').val().slice(0,-1) );
+				    $('#_openvri_message-src-two').val( $('#_openvri_message-src-two').val().slice(0,-1) );
 				else
-				    $('#message-src-two').val($('#message-src-two').val() + code);
+				    $('#_openvri_message-src-two').val($('#_openvri_message-src-two').val() + code);
 			    } else {
 				if(message.code == '8')
-				    $('#message-src-three').val( $('#message-src-three').val().slice(0,-1) );
+				    $('#_openvri_message-src-three').val( $('#_openvri_message-src-three').val().slice(0,-1) );
 				else
-				    $('#message-src-three').val($('#message-src-three').val() + code);
+				    $('#_openvri_message-src-three').val($('#_openvri_message-src-three').val() + code);
 			    }
 			}
 		    };
@@ -183,7 +183,15 @@ $(function() {
 	handleErrorCode(socket);
 
 	// get the media running then join a session
-	startMedia($('#video-src-one'), p_socket, p_roomName);
+	startMedia($('#_openvri_video-src-one'), p_socket, p_roomName);
+    }
+    
+    function createFirstDisplay() {
+	if( $('#_openvri_video-src-one').length  == 0 ) {
+	    $('#_openvri_video-body').append("<video id='_openvri_video-src-one' class='_openvri_video-box'  autoplay='autoplay' controls='controls'>");
+	    $('#_openvri_message-body').append("<textarea id='_openvri_message-src-one' class='_openvri_messages'>");
+	    $('#_openvri_dialog').dialog('open');
+	}
     }
 
     $(document).ready(function() {
@@ -191,11 +199,13 @@ $(function() {
 	roomName = window.location.hash.substring(1);
 	trace('roomName: ' + roomName);
 	if(roomName != ''){
-	    $('#dialog').dialog('open');
+	    createFirstDisplay();
+	    //$('#_openvri_dialog').dialog('open');
 	};
+	$('#_openvri_inviteURL').hide();
     });
 
-    $('#dialog').dialog({
+    $('#_openvri_dialog').dialog({
 	autoOpen: false,
 	width: 1510,
 	height: 860,
@@ -211,30 +221,56 @@ $(function() {
 	    setupRTC(socket, roomName);
 	},
 	close: function (event, ui) {
-	   document.location.href='/'; 
+	    document.location.href='/'; 
+	    //pageCounter++;
+	    //window.history.pushState(pageCounter, 'VRI Lite', '/');
 	}
     });
 
-    $('#createBtn').click(function () {
+    $('#_openvri_createBtn').click(function () {
 	console.log('createBtn clicked');
 	roomName = generateID();
 	pageCounter++;
 	window.history.pushState(pageCounter, 'VRI Lite', 'room#' + roomName);
-	$('#dialog').dialog('open');
+	createFirstDisplay();
+	//$('#_openvri_dialog').dialog('open');
     });
 
-    $('#hangupBtn').click(function () {
+    $('#_openvri_hangupBtn').click(function () {
 	trace('hangupBtn clicked');
+	/*
+	for(var i = peers.length - 1; i >= 0; i--) {
+	    if(peers[i].hasPC()){
+		var orient = peers[i].getOrientation();
+		if( orient == 'two' ) {
+		    $('#_openvri_video-src-two').remove();
+		    $('#_openvri_message-src-two').remove();
+		} else if (orient == 'three') {
+		    $('#_openvri_video-src-three').remove();
+		    $('#_openvri_message-src-three').remove();
+		}
+		$('#_openvri_video-src-one').attr('animation-name', 'slidein');
+		$('#_openvri_message-src-one').attr('animation-name', 'slidein');
+		peers.splice(i, 1);
+	    };
+	};
+	*/
 	stopMedia(socket);
-	$("#dialog").dialog('close');
+	$('#_openvri_video-src-one').remove();
+	$('#_openvri_message-src-one').remove();
+	$("#_openvri_dialog").dialog('close');
     });
 
-    $('#inviteBtn').click(function() {
+    $('#_openvri_inviteBtn').click(function() {
 	trace('inviteBtn clicked');
-	alertify.alert('Share this URL: \n' + document.URL + "\n\n");
+	document.getElementById('_openvri_inviteURL').innerHTML = "Share this URL: " + getURL() + '/room#' + roomName;
+	if( $('#_openvri_inviteURL').is(':visible') )
+	    $('#_openvri_inviteURL').hide(500);
+	else
+	    $('#_openvri_inviteURL').show(1000);
     });
 
-    $('#message-src-one').on('keydown', function(e) {
+    $('#_openvri_message-src-one').on('keydown', function(e) {
 	var code = (e.keyCode ? e.keyCode : e.which);
 	console.log(e.type, e.which, e.keyCode);
 
@@ -273,5 +309,13 @@ $(function() {
 
     function generateID () {
 	return (S4() + S4() + '-' + S4() + '-' + S4() + '-' + S4() + '-' + S4() + S4() + S4());
-    };
+    }
+
+    function getURL () {
+	var pathArray = window.location.href.split('/');
+	var protocol = pathArray[0];
+	var host = pathArray[2];
+	var url = protocol + '//' + host;
+	return url;
+    }
 });

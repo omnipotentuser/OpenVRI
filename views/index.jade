@@ -4,24 +4,20 @@ html
     title VRI Lite
     link(rel='stylesheet', href='http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
-    link(rel='stylesheet', href='/stylesheets/alertify.css')
-    link(rel='stylesheet', href='/stylesheets/alertify.default.css')
     script(src='socket.io/socket.io.js')
     script(src='http://code.jquery.com/jquery-1.9.1.js')
     script(src='http://code.jquery.com/ui/1.10.3/jquery-ui.js')
     script(src='/javascripts/chat.js')
     script(src='/javascripts/chat_ui.js')
     script(src='/javascripts/adapter.js')
-    script(src='/javascripts/alertify/lib/alertify.min.js')
   body
-    input(id='createBtn', class='button', type='button', value='create room', title='Create a new room')
-    div(id='dialog', title='openvri.com')
-      div#video-layout
-        div#video-header
-          input(id='hangupBtn', class='button', type='button', value='done', title='Stop sending video')
-          input(id='inviteBtn', class='button', type='button', value='invite', title='Give the URL to allow a member to join this room')
-        div#video-body
-            video(id='video-src-one', class='video-box', autoplay, controls)
-        div#message-body
-            textarea(id='message-src-one', class='messages')
+    input(id='_openvri_createBtn', class='_openvri_button', type='button', value='create room', title='Create a new room')
+    div(id='_openvri_dialog', title='openvri.com')
+      div#_openvri_video-layout
+        div#_openvri_video-header
+          input(id='_openvri_hangupBtn', class='_openvri_button', type='button', value='done', title='Stop sending video')
+          input(id='_openvri_inviteBtn', class='_openvri_button', type='button', value='invite', title='Give the URL to allow a member to join this room')
+          p#_openvri_inviteURL
+        div#_openvri_video-body
+        div#_openvri_message-body
 

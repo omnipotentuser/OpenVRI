@@ -68,10 +68,10 @@ function Peer(p_socket, p_id, p_roomName, p_orientation) {
 	trace('onAddStream '+evt.stream.id);
 	if(orientation == 'two') {
 	    trace('Taking up second video display');
-	    $('#video-src-two').attr('src', window.URL.createObjectURL(evt.stream));
+	    $('#_openvri_video-src-two').attr('src', window.URL.createObjectURL(evt.stream));
 	} else if ( orientation == 'three' ) {
 	    trace('Taking up third video display');
-	    $('#video-src-three').attr('src', window.URL.createObjectURL(evt.stream));
+	    $('#_openvri_video-src-three').attr('src', window.URL.createObjectURL(evt.stream)).show(1000);
 	} else {
 	    trace('Room is full');
 	};
