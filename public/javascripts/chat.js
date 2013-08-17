@@ -1,7 +1,7 @@
 
 function logError(error) {
-    trace('error: ' + error);
-    trace(error.name + ': ' + error.message);
+    console.log('error: ' + error);
+    console.log(error.name + ': ' + error.message);
 }
 
 function Peer(p_socket, p_id, p_roomName, p_orientation) {
@@ -61,19 +61,19 @@ function Peer(p_socket, p_id, p_roomName, p_orientation) {
 	    pc.addStream(localstream);
 	else
 	    alert('Media device is not detected.');
-	trace('OpenRTC::buildClient signaling state: ' + pc.signalingState);
+	console.log('OpenRTC::buildClient signaling state: ' + pc.signalingState);
     };
 
     var onAddStream = function(evt) {
-	trace('onAddStream '+evt.stream.id);
+	console.log('onAddStream '+evt.stream.id);
 	if(orientation == 'two') {
-	    trace('Taking up second video display');
+	    console.log('Taking up second video display');
 	    $('#_openvri_video-src-two').attr('src', window.URL.createObjectURL(evt.stream));
 	} else if ( orientation == 'three' ) {
-	    trace('Taking up third video display');
+	    console.log('Taking up third video display');
 	    $('#_openvri_video-src-three').attr('src', window.URL.createObjectURL(evt.stream)).show(1000);
 	} else {
-	    trace('Room is full');
+	    console.log('Room is full');
 	};
     };
 
@@ -86,29 +86,29 @@ function Peer(p_socket, p_id, p_roomName, p_orientation) {
 		to_id: peerid
 	    };
 	    if(socket){
-		//trace('ice candidate: ' + evt.candidate);
+		//console.log('ice candidate: ' + evt.candidate);
 		socket.emit('candidate', message);
 	    }
 	};
     };
 
     var onIceConnectionStateChange = function(){
-	trace('onIceConnectionStateChange state: ' + pc.iceConnectionState);
+	console.log('onIceConnectionStateChange state: ' + pc.iceConnectionState);
     };
 
     var onNegotiationNeeded = function(){
-	trace('onNegotiationNeeded');
+	console.log('onNegotiationNeeded');
 	if(isOffer)
 	    pc.createOffer(localDescCreated, logError);
     };
 
     var onRemoveStream = function(evt){
-	trace('onRemoveStream '+evt);
+	console.log('onRemoveStream '+evt);
 	isVtwo = false;
     };
 
     var onSignalingStateChange = function(){
-	trace('onSignalingStateChange: ' + pc.signalingState);
+	console.log('onSignalingStateChange: ' + pc.signalingState);
     };
 
     var localDescCreated = function(desc){
@@ -120,8 +120,8 @@ function Peer(p_socket, p_id, p_roomName, p_orientation) {
 		sdp: pc.localDescription,
 		to_id: peerid
 	    };
-	    trace('setLocalDescription SdpType: ' + message.sdp.type);
-	    trace('sdp ' + message.sdp.sdp);
+	    console.log('setLocalDescription SdpType: ' + message.sdp.type);
+	    console.log('sdp ' + message.sdp.sdp);
 	    socket.emit('sdp', message)
 	}, logError);
     }
@@ -137,17 +137,17 @@ function Peer(p_socket, p_id, p_roomName, p_orientation) {
 
     this.addIceCandidate = function (p_candidate) {
 	if(pc){
-	    trace('Create new Ice Candidate for peer');
+	    console.log('Create new Ice Candidate for peer');
 	    pc.addIceCandidate(new RTCIceCandidate(p_candidate));
 	} else {
-	    trace('No peer candidate instance');
+	    console.log('No peer candidate instance');
 	};
     };
 
     this.setRemoteDescription = function (p_remote_sdp) {
 	pc.setRemoteDescription(new RTCSessionDescription(p_remote_sdp), function () {
 	    if(pc.remoteDescription.type == 'offer') {
-		trace('createAnswer to remote sdp offer');
+		console.log('createAnswer to remote sdp offer');
 		pc.createAnswer(localDescCreated, logError);
 	    }
 	}, logError);
@@ -158,12 +158,13 @@ function Peer(p_socket, p_id, p_roomName, p_orientation) {
 
     var joinRoom = function (p_socket, p_room) {
 	if(p_room !== null || p_room !== undefined || p_room !== '') {
-	    trace('joining ' + p_room);
+	    console.log('joining ' + p_room);
 	    p_socket.emit('join', {room:p_room} );
 	}
     };
 
     this.startMedia = function(p_localvideo, p_socket, p_room){
+	console.log('before getStartMedia');
 	getUserMedia(
 	    {
 		video : true,
@@ -175,7 +176,7 @@ function Peer(p_socket, p_id, p_roomName, p_orientation) {
 		p_localvideo.show();
 		p_localvideo.attr('src', window.URL.createObjectURL(this.localstream));
 		p_localvideo.onloadedmetadata = function(e){
-		    trace('onloadedmetadata: ' + e);
+		    console.log('onloadedmetadata: ' + e);
 		};
 		joinRoom(p_socket, p_room);
 	    },
@@ -185,14 +186,14 @@ function Peer(p_socket, p_id, p_roomName, p_orientation) {
 
     this.stopMedia = function(p_socket){
 	if(this.localstream){
-	    trace('stopping local media stream');
+	    console.log('stopping local media stream');
 	    this.localstream.stop();
 	    p_socket.emit('exit');
 	}
     }
 
     this.sendMsg = function(p_socket, p_code, p_roomName) {
-	trace('sending ' + p_code);
+	console.log('sending ' + p_code);
 	if(p_roomName == null || p_roomName === ''){
 	    alert('Please join a room first before sending a message!');
 	    return;

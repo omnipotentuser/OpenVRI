@@ -67,6 +67,13 @@ app.get('/room', function(req, res) {
     res.render('index');
 });
 
+
+app.all('/partial_embed', function(req, res) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'X-Requested-With');
+  res.render('embed');
+});
+
 var server = http.createServer(app).listen(app.get('port'), function(){
     console.log("Express server listening on port " + app.get('port'));
 });
