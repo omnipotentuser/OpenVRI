@@ -1,1 +1,0 @@
-../../../webrtc_google/samples/js/base/adapter.js
