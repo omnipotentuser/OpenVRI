@@ -9,6 +9,9 @@ body
 #_openvri_content
     display none
 
+#_openvri_dialog
+    display none
+
 #_openvri_video-layout
     height 685px
     width 1470px
@@ -20,14 +23,6 @@ body
 #_openvri_video-header
     width 100%
     height 40px
-
-#_openvri_inviteURL
-    font-size 14px
-    font-weight normal
-    float right
-    color black
-    margin-top 10px
-    margin-right 365px
 
 ._openvri_button
     border-style solid
@@ -77,7 +72,6 @@ body
 
 #_openvri_video-src-one
     margin-left 490px
-    animation-duration 2s
 
 #_openvri_message-body
     width 1470px
@@ -85,7 +79,6 @@ body
 
 #_openvri_message-src-one
     background-color #fdfdfd
-    animation-duration 2s
     margin 15px
     margin-left 500px
     &:focus
@@ -104,16 +97,61 @@ body
     border-width 2px
     border-color #3EC1FF
 
-//@keyframes slideout
-//    from
-//	margin-left 490px
-	
-//    to
-//	margin-left 250px
+#_openvri_inviteURL
+    font-size 14px
+    font-weight normal
+    float left
+    color black
+    margin-top 10px
+    margin-left 20px
+    display none
 
-//@keyframes slidein
-//    from
-//	margin-left 250px
+#_openvri_inviteDialog
+    position absolute
+    display none
+    left 325px
+    top 50px
+    z-index 3
+    border-style solid
+    border-width 5px
+    border-color #3EC1FF
+    border-radius 2px
+    background #d0d0d0
+    text-weight normal
+    opacity .90
+    text-align center
+    font-family Verdana, Arial, Lucida, Sans-serif
+    color black
+    width 800px
+    height 280px
 
-//    to 
-//	margin-left 490px
+#_openvri_inviteContext
+    margin 20px
+
+#_openvri_inviteTitle
+    font-size 18px
+    margin-bottom 20px
+    
+#_openvri_urlAddr
+    font-size 24px
+    font-weight bold
+    height 100px
+
+#_openvri_inviteBtns
+    margin-left 20px
+    margin-right 20px
+    margin-top 60px
+    margin-bottom 20px
+
+#_openvri_clipboardBtn
+    float right
+    bottom 20px
+    width 100px
+    height 30px
+    display none
+
+#_openvri_closeInviteBtn
+    float left
+    bottom 20px
+    width 70px
+    height 30px

@@ -1,4 +1,6 @@
 
+var _openvri_localstream;
+
 function logError(error) {
     console.log('error: ' + error);
     console.log(error.name + ': ' + error.message);
@@ -14,8 +16,20 @@ function Peer(p_socket, p_id, p_roomName, p_orientation) {
 	ice_config = {iceServers:[]},
 	credentials = [
 	    {
+
 		url:"stun:stun.counterpath.net"
 	    },
+	    /*
+	    {
+		url:'stun:stun3.1.google.com:19301'
+	    },
+	    {
+	        url:'stun:stun.softjoys.com'
+	    },
+	    {
+		url:'stun:stun01.sipphone.com'
+	    }
+	    */
 	    {   
 		url:"stun:numb.viagenie.ca", 
 		username:"nick@openvri.com", 
@@ -50,28 +64,31 @@ function Peer(p_socket, p_id, p_roomName, p_orientation) {
 			credentials[i].credential);	
 	    ice_config.iceServers.push(iceServer);
 	}
-	pc = new RTCPeerConnection(ice_config);
+	pc = new RTCPeerConnection(ice_config, {'optional': [{'DtlsSrtpKeyAgreement': 'true'}]});
 	pc.onaddstream = onAddStream;
 	pc.onicecandidate = onIceCandidate;
 	pc.oniceconnectionstatechange = onIceConnectionStateChange;
 	pc.onnegotiationneeded = onNegotiationNeeded;
 	pc.onremovestream = onRemoveStream;
 	pc.onsignalingstatechange = onSignalingStateChange;
-	if(localstream)
-	    pc.addStream(localstream);
+	console.log('readyState: ' + pc.readyState);
+	console.log('signalingState: ' + pc.signalingState);
+	if(_openvri_localstream)
+	    pc.addStream(_openvri_localstream);
 	else
 	    alert('Media device is not detected.');
-	console.log('OpenRTC::buildClient signaling state: ' + pc.signalingState);
+	console.log('post addStream readyState: ' + pc.readyState);
+	console.log('post addStream signalingState: ' + pc.signalingState);
     };
 
     var onAddStream = function(evt) {
 	console.log('onAddStream '+evt.stream.id);
 	if(orientation == 'two') {
 	    console.log('Taking up second video display');
-	    $('#_openvri_video-src-two').attr('src', window.URL.createObjectURL(evt.stream));
+	    jQuery('#_openvri_video-src-two').attr('src', window.URL.createObjectURL(evt.stream));
 	} else if ( orientation == 'three' ) {
 	    console.log('Taking up third video display');
-	    $('#_openvri_video-src-three').attr('src', window.URL.createObjectURL(evt.stream)).show(1000);
+	    jQuery('#_openvri_video-src-three').attr('src', window.URL.createObjectURL(evt.stream)).show(1000);
 	} else {
 	    console.log('Room is full');
 	};
@@ -98,8 +115,8 @@ function Peer(p_socket, p_id, p_roomName, p_orientation) {
 
     var onNegotiationNeeded = function(){
 	console.log('onNegotiationNeeded');
-	if(isOffer)
-	    pc.createOffer(localDescCreated, logError);
+	//if(isOffer)
+	 //   pc.createOffer(localDescCreated, logError);
     };
 
     var onRemoveStream = function(evt){
@@ -130,7 +147,7 @@ function Peer(p_socket, p_id, p_roomName, p_orientation) {
 	pc.createOffer(localDescCreated, logError); 
     };
 
-    // Not in use. Prefer to use onnegotiationneeded event.
+    // Not in use.
     //function peerCreateAnswer(p) {
     //	pc.createAnswer(localDescCreated, logError); 
     //};
@@ -145,12 +162,22 @@ function Peer(p_socket, p_id, p_roomName, p_orientation) {
     };
 
     this.setRemoteDescription = function (p_remote_sdp) {
-	pc.setRemoteDescription(new RTCSessionDescription(p_remote_sdp), function () {
-	    if(pc.remoteDescription.type == 'offer') {
-		console.log('createAnswer to remote sdp offer');
-		pc.createAnswer(localDescCreated, logError);
-	    }
-	}, logError);
+//	var wait = function () {
+//	    if( pc.signalingState === undefined ){
+//		console.log('setRemoteDescription signalingState undefined');
+//		setTimeout( wait, 10 );
+//	    } else {
+		console.log('setRemoteDescription signalingState ' + pc.signalingState);
+		pc.setRemoteDescription(new RTCSessionDescription(p_remote_sdp), function () {
+		    if(pc.remoteDescription.type == 'offer') {
+			console.log('createAnswer to remote sdp offer');
+			pc.createAnswer(localDescCreated, logError);
+		    }
+		}, logError);
+//	    };
+//	};
+
+//	wait();
     };
 };
 
@@ -172,9 +199,9 @@ function Peer(p_socket, p_id, p_roomName, p_orientation) {
 	    },
 
 	    function(p_stream){
-		this.localstream = p_stream;
+		_openvri_localstream = p_stream;
 		p_localvideo.show();
-		p_localvideo.attr('src', window.URL.createObjectURL(this.localstream));
+		p_localvideo.attr('src', window.URL.createObjectURL(_openvri_localstream));
 		p_localvideo.onloadedmetadata = function(e){
 		    console.log('onloadedmetadata: ' + e);
 		};
@@ -185,9 +212,9 @@ function Peer(p_socket, p_id, p_roomName, p_orientation) {
     };
 
     this.stopMedia = function(p_socket){
-	if(this.localstream){
+	if(_openvri_localstream){
 	    console.log('stopping local media stream');
-	    this.localstream.stop();
+	    _openvri_localstream.stop();
 	    p_socket.emit('exit');
 	}
     }
@@ -206,5 +233,5 @@ function Peer(p_socket, p_id, p_roomName, p_orientation) {
 	p_socket.emit('code', message);
     }
 
-    this.localstream;
+
 })();

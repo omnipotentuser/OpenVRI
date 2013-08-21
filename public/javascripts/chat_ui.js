@@ -1,5 +1,5 @@
 
-$(function() {
+jQuery(function() {
     var peers = [],
 	roomName,
 	socket = io.connect('http://openvri.com:1337'), 
@@ -33,8 +33,8 @@ $(function() {
     function asyncCreatePeers(p_users, p_roomName) {
 	    var pid = p_users.shift();
 	    console.log('creating new peer ' + pid);
-	    $('#_openvri_video-src-one').animate({ marginLeft: '-=243px'}, 200);
-	    $('#_openvri_message-src-one').animate({ marginLeft: '-=243px'}, 200);
+	    jQuery('#_openvri_video-src-one').animate({ marginLeft: '-=243px'}, 200);
+	    jQuery('#_openvri_message-src-one').animate({ marginLeft: '-=243px'}, 200);
 	    
 	    var orient = createDisplay();
 	    var peer = new Peer(socket, pid, p_roomName, orient);
@@ -46,12 +46,13 @@ $(function() {
     function handleCreateOffer(socket, p_roomName) {
 	socket.on('createOffer', function(message){
 	    console.log('createOffer for remote peer: ' + message.id);
-	    $('#_openvri_video-src-one').animate({ marginLeft: '-=243px'}, 200 );
-	    $('#_openvri_message-src-one').animate({ marginLeft: '-=243px'}, 200, function() {
+	    jQuery('#_openvri_video-src-one').animate({ marginLeft: '-=243px'}, 200 );
+	    jQuery('#_openvri_message-src-one').animate({ marginLeft: '-=243px'}, 200, function() {
 		var orient = createDisplay();
 		var peer = new Peer(socket, message.id, p_roomName, orient);
 		peer.buildClient(true);
 		peers.push(peer);
+		peer.peerCreateOffer();
 	    });
 	});
     }
@@ -94,14 +95,14 @@ $(function() {
 		    if(peers[i].hasPC()){
 			var orient = peers[i].getOrientation();
 			if( orient == 'two' ) {
-			    $('#_openvri_video-src-two').remove();
-			    $('#_openvri_message-src-two').remove();
+			    jQuery('#_openvri_video-src-two').remove();
+			    jQuery('#_openvri_message-src-two').remove();
 			} else if (orient == 'three') {
-			    $('#_openvri_video-src-three').remove();
-			    $('#_openvri_message-src-three').remove();
+			    jQuery('#_openvri_video-src-three').remove();
+			    jQuery('#_openvri_message-src-three').remove();
 			}
-			$('#_openvri_video-src-one').animate({ marginLeft: '+=243px'}, 200);
-			$('#_openvri_message-src-one').animate({ marginLeft: '+=243px'}, 200);
+			jQuery('#_openvri_video-src-one').animate({ marginLeft: '+=243px'}, 200);
+			jQuery('#_openvri_message-src-one').animate({ marginLeft: '+=243px'}, 200);
 			peers.splice(i, 1);
 			return;
 		    };
@@ -127,15 +128,15 @@ $(function() {
     }
 
     function createDisplay() {
-	var orientation = undefined;
+	var orientation;
 	console.log('begin creating display');
-	if( $('#_openvri_video-src-two').length  == 0){
-	    $('#_openvri_video-body').append("<video id='_openvri_video-src-two' class='_openvri_video-box'  autoplay='autoplay' controls='controls'>");
-	    $('#_openvri_message-body').append("<textarea id='_openvri_message-src-two' class='_openvri_messages' disabled='disabled'>");
+	if( jQuery('#_openvri_video-src-two').length  == 0){
+	    jQuery('#_openvri_video-body').append("<video id='_openvri_video-src-two' class='_openvri_video-box'  autoplay='autoplay' controls='controls'>");
+	    jQuery('#_openvri_message-body').append("<textarea id='_openvri_message-src-two' class='_openvri_messages' disabled='disabled'>");
 	    orientation = 'two';
-	} else if( $('#_openvri_video-src-three').length == 0 ) {
-	    $('#_openvri_video-body').append("<video id='_openvri_video-src-three' class='_openvri_video-box'  autoplay='autoplay' controls='controls'>");
-	    $('#_openvri_message-body').append("<textarea id='_openvri_message-src-three' class='_openvri_messages' disabled='disabled'>");
+	} else if( jQuery('#_openvri_video-src-three').length == 0 ) {
+	    jQuery('#_openvri_video-body').append("<video id='_openvri_video-src-three' class='_openvri_video-box'  autoplay='autoplay' controls='controls'>");
+	    jQuery('#_openvri_message-body').append("<textarea id='_openvri_message-src-three' class='_openvri_messages' disabled='disabled'>");
 	    orientation = 'three';
 	} else {
 	    console.log('Somebody is trying to join');
@@ -158,14 +159,14 @@ $(function() {
 			    var orient = peers[i].getOrientation();
 			    if(orient == 'two'){
 				if(message.code == '8')
-				    $('#_openvri_message-src-two').val( $('#_openvri_message-src-two').val().slice(0,-1) );
+				    jQuery('#_openvri_message-src-two').val( jQuery('#_openvri_message-src-two').val().slice(0,-1) );
 				else
-				    $('#_openvri_message-src-two').val($('#_openvri_message-src-two').val() + code);
+				    jQuery('#_openvri_message-src-two').val(jQuery('#_openvri_message-src-two').val() + code);
 			    } else {
 				if(message.code == '8')
-				    $('#_openvri_message-src-three').val( $('#_openvri_message-src-three').val().slice(0,-1) );
+				    jQuery('#_openvri_message-src-three').val( jQuery('#_openvri_message-src-three').val().slice(0,-1) );
 				else
-				    $('#_openvri_message-src-three').val($('#_openvri_message-src-three').val() + code);
+				    jQuery('#_openvri_message-src-three').val(jQuery('#_openvri_message-src-three').val() + code);
 			    }
 			}
 		    };
@@ -188,19 +189,19 @@ $(function() {
 
 	// get the media running then join a session
 	console.log('calling startMedia');
-	startMedia($('#_openvri_video-src-one'), p_socket, p_roomName);
+	startMedia(jQuery('#_openvri_video-src-one'), p_socket, p_roomName);
 	console.log('after calling startMedia');
     }
     
     function createFirstDisplay() {
-	if( $('#_openvri_video-src-one').length  == 0 ) {
-	    $('#_openvri_video-body').append("<video id='_openvri_video-src-one' class='_openvri_video-box'  autoplay='autoplay' controls='controls'>");
-	    //$('#_openvri_message-body').append("<textarea id='_openvri_message-src-one' class='_openvri_messages'>");
-	    $('#_openvri_dialog').dialog('open');
+	if( jQuery('#_openvri_video-src-one').length  == 0 ) {
+	    jQuery('#_openvri_video-body').append("<video id='_openvri_video-src-one' class='_openvri_video-box'  autoplay='autoplay' controls='controls'>");
+	    //jQuery('#_openvri_message-body').append("<textarea id='_openvri_message-src-one' class='_openvri_messages'>");
+	    jQuery('#_openvri_dialog').dialog('open');
 	}
     }
 
-    $(document).ready(function() {
+    jQuery(document).ready(function() {
 
 	var hashurl = window.location.hash;
 	//console.log('url ' + hashurl);
@@ -215,10 +216,10 @@ $(function() {
 	if(roomName != ''){
 	    createFirstDisplay();
 	};
-	$('#_openvri_inviteURL').hide();
+	//jQuery('#_openvri_inviteURL').hide();
     });
 
-    $('#_openvri_dialog').dialog({
+    jQuery('#_openvri_dialog').dialog({
 	autoOpen: false,
 	width: 1485,
 	height: 768,
@@ -241,49 +242,62 @@ $(function() {
 	}
     });
 
-    $('#_openvri_createBtn').click(function () {
+    jQuery('#_openvri_createBtn').click(function () {
 	console.log('createBtn clicked');
 	roomName = generateID();
 	pageCounter++;
 	window.history.pushState(pageCounter, 'VRI Lite', '#' + roomName);
 	createFirstDisplay();
-	//$('#_openvri_dialog').dialog('open');
+	//jQuery('#_openvri_dialog').dialog('open');
     });
 
-    $('#_openvri_hangupBtn').click(function () {
+    jQuery('#_openvri_hangupBtn').click(function () {
 	console.log('hangupBtn clicked');
 	/*
 	for(var i = peers.length - 1; i >= 0; i--) {
 	    if(peers[i].hasPC()){
 		var orient = peers[i].getOrientation();
 		if( orient == 'two' ) {
-		    $('#_openvri_video-src-two').remove();
-		    $('#_openvri_message-src-two').remove();
+		    jQuery('#_openvri_video-src-two').remove();
+		    jQuery('#_openvri_message-src-two').remove();
 		} else if (orient == 'three') {
-		    $('#_openvri_video-src-three').remove();
-		    $('#_openvri_message-src-three').remove();
+		    jQuery('#_openvri_video-src-three').remove();
+		    jQuery('#_openvri_message-src-three').remove();
 		}
-		$('#_openvri_video-src-one').attr('animation-name', 'slidein');
-		$('#_openvri_message-src-one').attr('animation-name', 'slidein');
+		jQuery('#_openvri_video-src-one').attr('animation-name', 'slidein');
+		jQuery('#_openvri_message-src-one').attr('animation-name', 'slidein');
 		peers.splice(i, 1);
 	    };
 	};
 	*/
 	stopMedia(socket);
-	$('#_openvri_video-src-one').remove();
-	$("#_openvri_dialog").dialog('close');
+	if(jQuery('#_openvri_inviteDialog').is(':visible'))
+	    jQuery('#_openvri_inviteDialog').hide(500);
+	jQuery("#_openvri_dialog").dialog('close');
+	jQuery('#_openvri_video-src-one').remove();
     });
 
-    $('#_openvri_inviteBtn').click(function() {
+    jQuery('#_openvri_inviteBtn').click(function() {
 	console.log('inviteBtn clicked');
-	document.getElementById('_openvri_inviteURL').innerHTML = "Share this URL: " + getURL() + '/#' + roomName;
-	if( $('#_openvri_inviteURL').is(':visible') )
-	    $('#_openvri_inviteURL').hide(500);
-	else
-	    $('#_openvri_inviteURL').show(1000);
+	document.getElementById('_openvri_urlAddr').innerHTML = getURL();
+	jQuery('#_openvri_inviteDialog').toggle(1000);
     });
 
-    $('#_openvri_message-src-one').on('keydown', function(e) {
+    jQuery('#_openvri_closeInviteBtn').click( function() {
+	if(jQuery('#_openvri_inviteDialog').is(':visible'))
+	    jQuery('#_openvri_inviteDialog').toggle(500);
+    });
+
+    jQuery('#_openvri_clipboardBtn').click( function() {
+	jQuery('#_openvri_urlAddr').select();
+	//var r = document.body.createTextRange();
+	//var copiedText = document.getElementById('_openvri_urlAddr');
+	//r.findText(copiedText.textContent);
+	window.clipboardData.setData('Text', jQuery('#_openvri_urlAddr').text());
+	alert(window.clipboardData.getData('Text'));
+    });
+
+    jQuery('#_openvri_message-src-one').on('keydown', function(e) {
 	var code = (e.keyCode ? e.keyCode : e.which);
 	console.log(e.type, e.which, e.keyCode);
 
@@ -329,6 +343,9 @@ $(function() {
 	var protocol = pathArray[0];
 	var host = pathArray[2];
 	var url = protocol + '//' + host;
+	for(var i = 3; i < pathArray.length; i++){
+	    url += '/' + pathArray[i];
+	}
 	return url;
     }
 });

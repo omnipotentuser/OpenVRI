@@ -1,8 +1,8 @@
 html,body{padding-left:auto;padding-right:auto}
 #_openvri_content{display:none}
+#_openvri_dialog{display:none}
 #_openvri_video-layout{height:685px;width:1470px;margin-left:-10px;margin-top:5px;background-color:#fafafa}
 #_openvri_video-header{width:100%;height:40px}
-#_openvri_inviteURL{font-size:14px;font-weight:normal;float:right;color:#000;margin-top:10px;margin-right:365px}
 ._openvri_button{border-style:solid;border-width:1px;border-color:#b0d2ff;-webkit-border-radius:2px;border-radius:2px;background:-webkit-gradient(linear, left top, left bottom, color-stop(0, #3ec1ff), color-stop(0.33333333333333326, #6fc2ff), color-stop(1, #3ec1ff));background:-webkit-linear-gradient(top, #3ec1ff 0, #6fc2ff 33.33333333333333%, #3ec1ff 100%);background:-moz-linear-gradient(top, #3ec1ff 0, #6fc2ff 33.33333333333333%, #3ec1ff 100%);background:-o-linear-gradient(top, #3ec1ff 0, #6fc2ff 33.33333333333333%, #3ec1ff 100%);background:-ms-linear-gradient(top, #3ec1ff 0, #6fc2ff 33.33333333333333%, #3ec1ff 100%);background:linear-gradient(top, #3ec1ff 0, #6fc2ff 33.33333333333333%, #3ec1ff 100%);text-weight:normal;margin:5px;opacity:1;-ms-filter:none;filter:none;text-align:center;font-family:Verdana,Arial,Lucida,Sans-serif;color:#fff;}
 ._openvri_button:hover{background:#3ec1ff}
 ._openvri_button:active{background:-webkit-gradient(linear, left top, left bottom, color-stop(0, #3ec1fd), color-stop(0.33333333333333326, #3ec1ff), color-stop(1, #3ec1fd));background:-webkit-linear-gradient(top, #3ec1fd 0, #3ec1ff 33.33333333333333%, #3ec1fd 100%);background:-moz-linear-gradient(top, #3ec1fd 0, #3ec1ff 33.33333333333333%, #3ec1fd 100%);background:-o-linear-gradient(top, #3ec1fd 0, #3ec1ff 33.33333333333333%, #3ec1fd 100%);background:-ms-linear-gradient(top, #3ec1fd 0, #3ec1ff 33.33333333333333%, #3ec1fd 100%);background:linear-gradient(top, #3ec1fd 0, #3ec1ff 33.33333333333333%, #3ec1fd 100%)}
@@ -11,9 +11,17 @@ html,body{padding-left:auto;padding-right:auto}
 #_openvri_inviteBtn{float:right;width:70px;height:30px;font-size:14px;font-weight:bold}
 #_openvri_video-body{width:1470px;height:370px}
 ._openvri_video-box{width:480px;height:360px;background-color:#888;margin:5px}
-#_openvri_video-src-one{margin-left:490px;-webkit-animation-duration:2s;-moz-animation-duration:2s;-o-animation-duration:2s;-ms-animation-duration:2s;animation-duration:2s}
+#_openvri_video-src-one{margin-left:490px}
 #_openvri_message-body{width:1470px;height:270px}
-#_openvri_message-src-one{background-color:#fdfdfd;-webkit-animation-duration:2s;-moz-animation-duration:2s;-o-animation-duration:2s;-ms-animation-duration:2s;animation-duration:2s;margin:15px;margin-left:500px;}
+#_openvri_message-src-one{background-color:#fdfdfd;margin:15px;margin-left:500px;}
 #_openvri_message-src-one:focus{outline-color:#3ec1ff}
 #_openvri_message-src-two,#_openvri_message-src-three{background-color:#cfcfcf;color:#000;margin:15px}
 ._openvri_messages{width:452px;height:250px;resize:none;font-size:18px;border-width:2px;border-color:#3ec1ff}
+#_openvri_inviteURL{font-size:14px;font-weight:normal;float:left;color:#000;margin-top:10px;margin-left:20px;display:none}
+#_openvri_inviteDialog{position:absolute;display:none;left:325px;top:50px;z-index:3;border-style:solid;border-width:5px;border-color:#3ec1ff;-webkit-border-radius:2px;border-radius:2px;background:#d0d0d0;text-weight:normal;opacity:.9;-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";filter:alpha(opacity=90);text-align:center;font-family:Verdana,Arial,Lucida,Sans-serif;color:#000;width:800px;height:280px}
+#_openvri_inviteContext{margin:20px}
+#_openvri_inviteTitle{font-size:18px;margin-bottom:20px}
+#_openvri_urlAddr{font-size:24px;font-weight:bold;height:100px}
+#_openvri_inviteBtns{margin-left:20px;margin-right:20px;margin-top:60px;margin-bottom:20px}
+#_openvri_clipboardBtn{float:right;bottom:20px;width:100px;height:30px;display:none}
+#_openvri_closeInviteBtn{float:left;bottom:20px;width:70px;height:30px}
