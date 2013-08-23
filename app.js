@@ -17,12 +17,11 @@ function compile(str, path) {
 }
 
 app.configure(function(){
-    app.set('port', process.env.PORT || 1337);
+    app.set('port', process.env.PORT || 2337);
     app.set('views', __dirname + '/views');
     app.set('assets', __dirname + '/views/assets/');
     app.set('view engine', 'jade');
     app.use(express.logger('dev'));
-    app.use(express.favicon(__dirname+'/public/favicon.ico'));
     app.use(express.bodyParser());
     app.use(express.methodOverride());
     app.use(app.router);

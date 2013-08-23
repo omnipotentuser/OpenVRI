@@ -40,7 +40,7 @@ OPENVRI_EMBED.loadDependencies = function() {
   if (true) {
     var socketIO = document.createElement('script');
     socketIO.setAttribute('type', 'text/javascript');
-    socketIO.setAttribute('src', '//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js');
+    socketIO.setAttribute('src', OPENVRI_EMBED.site + '/socket.io/socket.io.js');
     body.appendChild(socketIO);
   }
 
