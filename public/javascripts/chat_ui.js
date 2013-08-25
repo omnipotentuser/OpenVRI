@@ -2,7 +2,7 @@
 jQuery(function() {
     var peers = [],
 	roomName,
-	socket = io.connect('http://openvri.com:1337'), 
+	socket = io.connect();
 	pageCounter = 1,
 	localId;
 
