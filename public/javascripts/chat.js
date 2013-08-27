@@ -191,25 +191,30 @@ function Peer(p_socket, p_id, p_roomName, p_orientation) {
     };
 
     this.startMedia = function(p_localvideo, p_socket, p_room){
-	console.log('before getStartMedia');
-	getUserMedia(
-	    {
-		video : true,
-		audio : true
-	    },
+	if(typeof getUserMedia == 'undefined') {
+	    console.log('getUserMedia undefined, trying again.');
+	    setTimeout( this.startMedia(p_localvideo, p_socket, p_room), 10 )
+	} else {
+	    console.log('calling getUserMedia');
+	    getUserMedia(
+		{
+		    video : true,
+		    audio : true
+		},
 
-	    function(p_stream){
-		_openvri_localstream = p_stream;
-		p_localvideo.show();
-		p_localvideo.attr('src', window.URL.createObjectURL(_openvri_localstream));
-		p_localvideo.onloadedmetadata = function(e){
-		    console.log('onloadedmetadata: ' + e);
-		};
-		joinRoom(p_socket, p_room);
-	    },
-	    logError
-	);
-    };
+		function(p_stream){
+		    _openvri_localstream = p_stream;
+		    p_localvideo.show();
+		    p_localvideo.attr('src', window.URL.createObjectURL(_openvri_localstream));
+		    p_localvideo.onloadedmetadata = function(e){
+			console.log('onloadedmetadata: ' + e);
+		    };
+		    joinRoom(p_socket, p_room);
+		},
+		logError
+	    );
+	}	    
+    }
 
     this.stopMedia = function(p_socket){
 	if(_openvri_localstream){

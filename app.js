@@ -27,24 +27,6 @@ app.configure(function(){
     app.use(app.router);
     app.use(stylus.middleware({src: __dirname + '/public', compile: compile}));
     app.use(express.static(path.join(__dirname, 'public')));
-
-    //app.use(function(req, rest){
-//	console.log('%s %s', req.method, req.url);
- //   });
-    app.use(function (req, res, next) {
-	console.log('%s %s', req.method, req.url);
-	req.on('static', function() {
-	    var file = url.parse(req.url).pathname;
-	    var mode = 'stylesheet';
-	    if (file[file.length -1] == '/') {
-		file += 'index.html';
-		mode = 'reload';
-	    }
-	    console.log('watching file ' + file);
-	    rtcServer.createWatcher(file, mode);
-	});
-	next();
-    });
 });
 
 app.configure('production', function(){
@@ -59,13 +41,6 @@ app.get('/', function(req, res) {
     console.log(req.url);
     res.render('index');
 });
-
-app.get('/room', function(req, res) {
-    console.log(__dirname);
-    console.log(req.url);
-    res.render('index');
-});
-
 
 app.all('/partial_embed', function(req, res) {
   res.header('Access-Control-Allow-Origin', '*');
