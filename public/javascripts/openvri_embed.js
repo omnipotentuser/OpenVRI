@@ -1,7 +1,7 @@
 
 var OPENVRI_EMBED = {}; // namespace
 
-OPENVRI_EMBED.site = ''; // your site address goes here
+OPENVRI_EMBED.site = 'http://openvri.com:1337'; // your site address goes here
 
 OPENVRI_EMBED.partial;
 

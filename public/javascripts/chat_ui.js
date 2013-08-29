@@ -1,5 +1,5 @@
 
-var SOCK_ADDR = '' ; // your socket.io address goes here
+var SOCK_ADDR = 'http://openvri.com:1337' ; // your socket.io address goes here
 
 jQuery(function() {
     var peers = [],
