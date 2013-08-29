@@ -1,7 +1,7 @@
 
 var OPENVRI_EMBED = {}; // namespace
 
-OPENVRI_EMBED.site = 'http://embed.openvri.com';
+OPENVRI_EMBED.site = '';
 
 OPENVRI_EMBED.partial;
 

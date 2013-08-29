@@ -1,16 +1,17 @@
 
+var SOCK_ADDR = '' ; // your socket.io address goes here
+
 jQuery(function() {
     var peers = [],
 	roomName,
-	socket = io.connect('http://embed.openvri.com:80'), 
+	socket = io.connect(SOCK_ADDR),
 	pageCounter = 1,
 	localId;
 
     var shiftKeyCode = {'192':'126', '49':'33', '50':'64', '51':'35', '52':'36', '53':'37', '54':'94', '55':'38', '56':'42', '57':'40', '48':'41', '189':'95', '187':'43', '219':'123', '221':'125', '220':'124', '186':'58', '222':'34', '188':'60', '190':'62', '191':'63'};
     var specialCharCode = {'8':'8', '13':'13', '32':'32', '186':'58', '187':'61', '188':'44', '189':'45', '190':'46', '191':'47', '192':'96', '219':'91', '220':'92', '221':'93', '222':'39'};
 
-    this.logError = function(error) {
-	console.log('error: ' + error);
+    var logError = function(error) {
 	console.log(error.name + ': ' + error.message);
     }
 
@@ -149,7 +150,7 @@ jQuery(function() {
 	socket.on('code', function(message) {
 	    var code = String.fromCharCode(message.code);
 	    for(var i = 0; i < peers.length; i++) {
-		console.log(peers[i].getid() + ' == ' + message.from_id);
+		//console.log(peers[i].getid() + ' == ' + message.from_id);
 		if(peers[i].getid() == message.from_id){
 		    if(!peers[i].hasPC()){
 			console.log('Message received: PC not ready.');
@@ -162,11 +163,15 @@ jQuery(function() {
 				    jQuery('#_openvri_message-src-two').val( jQuery('#_openvri_message-src-two').val().slice(0,-1) );
 				else
 				    jQuery('#_openvri_message-src-two').val(jQuery('#_openvri_message-src-two').val() + code);
+
+				jQuery('#_openvri_message-src-two').scrollTop($('#_openvri_message-src-two')[0].scrollHeight);
 			    } else {
 				if(message.code == '8')
 				    jQuery('#_openvri_message-src-three').val( jQuery('#_openvri_message-src-three').val().slice(0,-1) );
 				else
 				    jQuery('#_openvri_message-src-three').val(jQuery('#_openvri_message-src-three').val() + code);
+
+				jQuery('#_openvri_message-src-three').scrollTop($('#_openvri_message-src-three')[0].scrollHeight);
 			    }
 			}
 		    };
@@ -188,15 +193,24 @@ jQuery(function() {
 	handleErrorCode(socket);
 
 	// get the media running then join a session
-	console.log('calling startMedia');
-	startMedia(jQuery('#_openvri_video-src-one'), p_socket, p_roomName);
-	console.log('after calling startMedia');
+	doMedia(p_socket, p_roomName);
+    }
+
+    function doMedia(p_socket, p_roomName) {
+	setTimeout( function() {
+	    
+	    if( typeof startMedia == 'undefined' ) {
+		doMedia(p_socket, p_roomName);
+	    } else {
+		startMedia(jQuery('#_openvri_video-src-one'), p_socket, p_roomName);
+	    }
+
+	}, 10 );
     }
     
     function createFirstDisplay() {
 	if( jQuery('#_openvri_video-src-one').length  == 0 ) {
 	    jQuery('#_openvri_video-body').append("<video id='_openvri_video-src-one' class='_openvri_video-box'  autoplay='autoplay' controls='controls'>");
-	    //jQuery('#_openvri_message-body').append("<textarea id='_openvri_message-src-one' class='_openvri_messages'>");
 	    jQuery('#_openvri_dialog').dialog('open');
 	}
     }
@@ -204,15 +218,19 @@ jQuery(function() {
     jQuery(document).ready(function() {
 
 	var hashurl = window.location.hash;
-	//console.log('url ' + hashurl);
 	var hashpos = hashurl.lastIndexOf('#');
-	//console.log('hash position ' + hashpos);
-	if(hashpos == -1)
+	if(hashpos != -1){
+	    hashurl = hashurl.substring(hashpos + 1);
+	}
+	if(hashpos == -1) {
 	    roomName = '';
-	else 
-	    roomName = hashurl.substring(hashpos+1);
+	} else if ( hashurl.length == 36 ){
+	    roomName = hashurl;
+	} else {
+	   roomName = '';
+	   logError({name: 'token', message: 'requirements not met to create a room'}); 
+	}
 
-	console.log('roomName: ' + roomName);
 	if(roomName != ''){
 	    createFirstDisplay();
 	};
@@ -288,6 +306,7 @@ jQuery(function() {
 	    jQuery('#_openvri_inviteDialog').toggle(500);
     });
 
+    // Not yet implemented
     jQuery('#_openvri_clipboardBtn').click( function() {
 	jQuery('#_openvri_urlAddr').select();
 	//var r = document.body.createTextRange();
@@ -299,7 +318,7 @@ jQuery(function() {
 
     jQuery('#_openvri_message-src-one').on('keydown', function(e) {
 	var code = (e.keyCode ? e.keyCode : e.which);
-	console.log(e.type, e.which, e.keyCode);
+	//console.log(e.type, e.which, e.keyCode);
 
 	if( code == '37' || code == '38' || code == '39' || code == '40' ){
 	    e.preventDefault();
@@ -321,7 +340,7 @@ jQuery(function() {
 	    } else if ( code >= 48 && code <= 57 ) {
 		sendMsg(socket, code, roomName);
 	    } else {
-		console.log('code not accepted');
+		console.log('keycode not accepted');
 		return;
 	    };
 
