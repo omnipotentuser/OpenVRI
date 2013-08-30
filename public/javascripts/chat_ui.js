@@ -1,5 +1,5 @@
 
-var SOCK_ADDR = 'http://openvri.com:1337' ; // your socket.io address goes here
+var SOCK_ADDR = '' ; // your socket.io address goes here
 
 jQuery(function() {
     var peers = [],
@@ -150,7 +150,7 @@ jQuery(function() {
 	socket.on('code', function(message) {
 	    var code = String.fromCharCode(message.code);
 	    for(var i = 0; i < peers.length; i++) {
-		console.log(peers[i].getid() + ' == ' + message.from_id);
+		//console.log(peers[i].getid() + ' == ' + message.from_id);
 		if(peers[i].getid() == message.from_id){
 		    if(!peers[i].hasPC()){
 			console.log('Message received: PC not ready.');
@@ -163,11 +163,15 @@ jQuery(function() {
 				    jQuery('#_openvri_message-src-two').val( jQuery('#_openvri_message-src-two').val().slice(0,-1) );
 				else
 				    jQuery('#_openvri_message-src-two').val(jQuery('#_openvri_message-src-two').val() + code);
+
+				jQuery('#_openvri_message-src-two').scrollTop($('#_openvri_message-src-two')[0].scrollHeight);
 			    } else {
 				if(message.code == '8')
 				    jQuery('#_openvri_message-src-three').val( jQuery('#_openvri_message-src-three').val().slice(0,-1) );
 				else
 				    jQuery('#_openvri_message-src-three').val(jQuery('#_openvri_message-src-three').val() + code);
+
+				jQuery('#_openvri_message-src-three').scrollTop($('#_openvri_message-src-three')[0].scrollHeight);
 			    }
 			}
 		    };
@@ -206,7 +210,7 @@ jQuery(function() {
     
     function createFirstDisplay() {
 	if( jQuery('#_openvri_video-src-one').length  == 0 ) {
-	    jQuery('#_openvri_video-body').append("<video id='_openvri_video-src-one' class='_openvri_video-box'  autoplay='autoplay' controls='controls'>");
+	    jQuery('#_openvri_video-body').append("<video id='_openvri_video-src-one' class='_openvri_video-box'  autoplay='autoplay' controls='controls' muted>");
 	    jQuery('#_openvri_dialog').dialog('open');
 	}
     }
@@ -314,7 +318,7 @@ jQuery(function() {
 
     jQuery('#_openvri_message-src-one').on('keydown', function(e) {
 	var code = (e.keyCode ? e.keyCode : e.which);
-	console.log(e.type, e.which, e.keyCode);
+	//console.log(e.type, e.which, e.keyCode);
 
 	if( code == '37' || code == '38' || code == '39' || code == '40' ){
 	    e.preventDefault();

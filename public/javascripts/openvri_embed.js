@@ -1,7 +1,7 @@
 
 var OPENVRI_EMBED = {}; // namespace
 
-OPENVRI_EMBED.site = 'http://openvri.com:1337'; // your site address goes here
+OPENVRI_EMBED.site = ''; // your site address goes here
 
 OPENVRI_EMBED.partial;
 
@@ -40,7 +40,7 @@ OPENVRI_EMBED.loadDependencies = function() {
   if (true) {
     var socketIO = document.createElement('script');
     socketIO.setAttribute('type', 'text/javascript');
-    socketIO.setAttribute('src', OPENVRI_EMBED.site + '/socket.io/socket.io.js');
+    socketIO.setAttribute('src', OPENVRI_EMBED.site+'/socket.io/socket.io.js');
     body.appendChild(socketIO);
   }
 

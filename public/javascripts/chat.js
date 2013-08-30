@@ -14,33 +14,26 @@ function Peer(p_socket, p_id, p_roomName, p_orientation) {
 	roomName = p_roomName,
 	orientation = p_orientation, // two, three
 	ice_config = {iceServers:[]},
+	credentials;
+
+    if (navigator.mozGetUserMedia) {
 	credentials = [
 	    {
-
 		url:"stun:stun.counterpath.net"
-	    },
-	    /*
-	    {
-		url:'stun:stun3.1.google.com:19301'
-	    },
-	    {
-	        url:'stun:stun.softjoys.com'
-	    },
-	    {
-		url:'stun:stun01.sipphone.com'
-	    }
-	    */
-	    {   
-		url:"stun:numb.viagenie.ca", 
-		username:"nick@openvri.com", 
-		credential:"numb01"
-	    }, 
-	    {
-		url:"turn:numb.viagenie.ca", 
-		username:"nick@openvri.com", 
-		credential:"numb01"
 	    }
 	];
+    } else {
+	credentials = [
+	    {
+		url:'stun:stun.1.google.com:19302'
+	    },
+	    {
+		url: 'turn:turn.bistri.com:80',
+		credential: 'homeo',
+		username: 'homeo'
+	    }
+	];
+    }
 
     this.getid = function () {
 	return (peerid);
@@ -191,29 +184,33 @@ function Peer(p_socket, p_id, p_roomName, p_orientation) {
     };
 
     this.startMedia = function(p_localvideo, p_socket, p_room){
-	if(typeof getUserMedia == 'undefined') {
-	    console.log('getUserMedia undefined, trying again.');
-	    setTimeout( this.startMedia(p_localvideo, p_socket, p_room), 10 )
+	var getUserMedia;
+	if (navigator.mozGetUserMedia) {
+	    getUserMedia = navigator.mozGetUserMedia.bind(navigator);
 	} else {
-	    console.log('calling getUserMedia');
-	    getUserMedia(
-		{
-		    video : true,
-		    audio : true
-		},
+	    getUserMedia = navigator.webkitGetUserMedia.bind(navigator); 
+	}
+	while(typeof getUserMedia == 'undefined') {
+	    console.log('getUserMedia undefined, trying again.');
+	};
+	console.log('calling getUserMedia');
+	getUserMedia(
+	    {
+		video : true,
+		audio : true
+	    },
 
-		function(p_stream){
-		    _openvri_localstream = p_stream;
-		    p_localvideo.show();
-		    p_localvideo.attr('src', window.URL.createObjectURL(_openvri_localstream));
-		    p_localvideo.onloadedmetadata = function(e){
-			console.log('onloadedmetadata: ' + e);
-		    };
-		    joinRoom(p_socket, p_room);
-		},
-		logError
-	    );
-	}	    
+	    function(p_stream){
+		_openvri_localstream = p_stream;
+		p_localvideo.show();
+		p_localvideo.attr('src', window.URL.createObjectURL(_openvri_localstream));
+		p_localvideo.onloadedmetadata = function(e){
+		    console.log('onloadedmetadata: ' + e);
+		};
+		joinRoom(p_socket, p_room);
+	    },
+	    logError
+        );
     }
 
     this.stopMedia = function(p_socket){
@@ -225,7 +222,6 @@ function Peer(p_socket, p_id, p_roomName, p_orientation) {
     }
 
     this.sendMsg = function(p_socket, p_code, p_roomName) {
-	console.log('sending ' + p_code);
 	if(p_roomName == null || p_roomName === ''){
 	    alert('Please join a room first before sending a message!');
 	    return;
