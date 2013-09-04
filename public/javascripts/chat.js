@@ -19,7 +19,7 @@ function Peer(p_socket, p_id, p_roomName, p_orientation) {
     if (navigator.mozGetUserMedia) {
 	credentials = [
 	    {
-		url:"stun:stun.counterpath.net"
+		url:"stun:stun.vline.com"
 	    }
 	];
     } else {
@@ -184,19 +184,32 @@ function Peer(p_socket, p_id, p_roomName, p_orientation) {
     };
 
     this.startMedia = function(p_localvideo, p_socket, p_room){
+	function hasGetUserMedia() {
+	    return !!(navigator.getUserMedia || navigator.webkitGetUserMedia ||
+		navigator.mozGetUserMedia || navigator.msGetUserMedia);
+	}
+	if (hasGetUserMedia() == false) {
+	    alert('Your media is not plugged in or the browser does not support it.');
+	    return;
+	};
+      
 	var getUserMedia;
 	if (navigator.mozGetUserMedia) {
 	    getUserMedia = navigator.mozGetUserMedia.bind(navigator);
 	} else {
 	    getUserMedia = navigator.webkitGetUserMedia.bind(navigator); 
 	}
-	while(typeof getUserMedia == 'undefined') {
-	    console.log('getUserMedia undefined, trying again.');
-	};
 	console.log('calling getUserMedia');
 	getUserMedia(
 	    {
-		video : true,
+		video : {
+		    mandatory: { minAspectRatio: 1.333, maxAspectRatio: 1.334 },
+		    optional: [
+			{ minFrameRate: 20 },
+			{ maxWidth: 320 },
+			{ maxHeigth: 240 }
+		    ]
+		},
 		audio : true
 	    },
 
