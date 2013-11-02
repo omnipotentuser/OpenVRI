@@ -11,14 +11,15 @@ body
 
 #_openvri_dialog
     display none
+    overflow hidden
+    background linear-gradient(top, #F2F2FF, #DDDDFF, #F2F2FF)
 
 #_openvri_video-layout
     height 685px
-    width 1470px
-    margin-left -10px
-    margin-top 5px
-    background-color #FAFAFA
+    width 100%
+    //background-color #FAFAFA
     //background-color #CEEFFF
+    background rgba(255,255,255,0.0);
 
 #_openvri_video-header
     width 100%
@@ -31,7 +32,6 @@ body
     border-radius 2px
     background linear-gradient(top, #3EC1FF, #6FC2FF, #3EC1FF)
     text-weight normal
-    margin 5px
     opacity 1
     text-align center
     font-family Verdana, Arial, Lucida, Sans-serif
@@ -52,6 +52,7 @@ body
     height 30px
     font-size 14px 
     font-weight bold
+    margin 5px
 
 #_openvri_inviteBtn
     float right
@@ -59,9 +60,10 @@ body
     height 30px
     font-size 14px 
     font-weight bold
+    margin 5px
 
 #_openvri_video-body
-    width 1470px
+    width 100%
     height 370px
 
 ._openvri_video-box
@@ -70,17 +72,13 @@ body
     background-color #888
     margin 5px
 
-#_openvri_video-src-one
-    margin-left 490px
-
 #_openvri_message-body
-    width 1470px
+    width 100%
     height 270px
 
 #_openvri_message-src-one
     background-color #fdfdfd
     margin 15px
-    margin-left 500px
     &:focus
         outline-color #3EC1FF
 
@@ -109,8 +107,6 @@ body
 #_openvri_inviteDialog
     position absolute
     display none
-    left 325px
-    top 50px
     z-index 3
     border-style solid
     border-width 5px
@@ -122,8 +118,11 @@ body
     text-align center
     font-family Verdana, Arial, Lucida, Sans-serif
     color black
-    width 800px
-    height 280px
+    left 50%
+    top 50px
+    width 400px
+    height auto
+    margin-left -200px
 
 #_openvri_inviteContext
     margin 20px
@@ -133,9 +132,10 @@ body
     margin-bottom 20px
     
 #_openvri_urlAddr
-    font-size 24px
+    font-size 16px
     font-weight bold
-    height 100px
+    height auto
+    overflow auto
 
 #_openvri_inviteBtns
     margin-left 20px
@@ -152,6 +152,6 @@ body
 
 #_openvri_closeInviteBtn
     float left
-    bottom 20px
+    margin-bottom 20px
     width 70px
     height 30px

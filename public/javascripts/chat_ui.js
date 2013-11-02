@@ -6,6 +6,7 @@ jQuery(function() {
 	roomName,
 	socket = io.connect(SOCK_ADDR),
 	pageCounter = 1,
+	dialog_width = 520,
 	localId;
 
     var shiftKeyCode = {'192':'126', '49':'33', '50':'64', '51':'35', '52':'36', '53':'37', '54':'94', '55':'38', '56':'42', '57':'40', '48':'41', '189':'95', '187':'43', '219':'123', '221':'125', '220':'124', '186':'58', '222':'34', '188':'60', '190':'62', '191':'63'};
@@ -34,8 +35,8 @@ jQuery(function() {
     function asyncCreatePeers(p_users, p_roomName) {
 	    var pid = p_users.shift();
 	    console.log('creating new peer ' + pid);
-	    jQuery('#_openvri_video-src-one').animate({ marginLeft: '-=243px'}, 200);
-	    jQuery('#_openvri_message-src-one').animate({ marginLeft: '-=243px'}, 200);
+	    dialog_width += 492;
+	    jQuery('#_openvri_dialog').dialog('option', 'width', dialog_width);
 	    
 	    var orient = createDisplay();
 	    var peer = new Peer(socket, pid, p_roomName, orient);
@@ -47,14 +48,13 @@ jQuery(function() {
     function handleCreateOffer(socket, p_roomName) {
 	socket.on('createOffer', function(message){
 	    console.log('createOffer for remote peer: ' + message.id);
-	    jQuery('#_openvri_video-src-one').animate({ marginLeft: '-=243px'}, 200 );
-	    jQuery('#_openvri_message-src-one').animate({ marginLeft: '-=243px'}, 200, function() {
-		var orient = createDisplay();
-		var peer = new Peer(socket, message.id, p_roomName, orient);
-		peer.buildClient(true);
-		peers.push(peer);
-		peer.peerCreateOffer();
-	    });
+	    dialog_width += 492;
+	    jQuery('#_openvri_dialog').dialog('option', 'width', dialog_width);
+	    var orient = createDisplay();
+	    var peer = new Peer(socket, message.id, p_roomName, orient);
+	    peer.buildClient(true);
+	    peers.push(peer);
+	    peer.peerCreateOffer();
 	});
     }
 
@@ -102,8 +102,8 @@ jQuery(function() {
 			    jQuery('#_openvri_video-src-three').remove();
 			    jQuery('#_openvri_message-src-three').remove();
 			}
-			jQuery('#_openvri_video-src-one').animate({ marginLeft: '+=243px'}, 200);
-			jQuery('#_openvri_message-src-one').animate({ marginLeft: '+=243px'}, 200);
+			dialog_width -= 492;
+			jQuery('#_openvri_dialog').dialog('option', 'width', dialog_width);
 			peers.splice(i, 1);
 			return;
 		    };
@@ -239,7 +239,7 @@ jQuery(function() {
 
     jQuery('#_openvri_dialog').dialog({
 	autoOpen: false,
-	width: 1485,
+	width: dialog_width,
 	height: 768,
 	modal: true,
 	show:{
@@ -271,23 +271,6 @@ jQuery(function() {
 
     jQuery('#_openvri_hangupBtn').click(function () {
 	console.log('hangupBtn clicked');
-	/*
-	for(var i = peers.length - 1; i >= 0; i--) {
-	    if(peers[i].hasPC()){
-		var orient = peers[i].getOrientation();
-		if( orient == 'two' ) {
-		    jQuery('#_openvri_video-src-two').remove();
-		    jQuery('#_openvri_message-src-two').remove();
-		} else if (orient == 'three') {
-		    jQuery('#_openvri_video-src-three').remove();
-		    jQuery('#_openvri_message-src-three').remove();
-		}
-		jQuery('#_openvri_video-src-one').attr('animation-name', 'slidein');
-		jQuery('#_openvri_message-src-one').attr('animation-name', 'slidein');
-		peers.splice(i, 1);
-	    };
-	};
-	*/
 	stopMedia(socket);
 	if(jQuery('#_openvri_inviteDialog').is(':visible'))
 	    jQuery('#_openvri_inviteDialog').hide(500);
