@@ -1,0 +1,17 @@
+doctype html
+html
+  head
+    title VRI Lite
+    link(rel='stylesheet', href='/stylesheets/jquery-ui-1.10.4.custom/jquery-ui-1.10.4.custom.min.css')
+    link(rel='stylesheet', href='/stylesheets/openvri-style.css')
+    script(src='socket.io/socket.io.js')
+    script(src='/javascripts/jquery-ui-1.10.4.custom/js/jquery-1.10.2.js')
+    script(src='/javascripts/jquery-ui-1.10.4.custom/js/jquery-ui-1.10.4.custom.min.js')
+    //script(src='/javascripts/chat.js')
+    //script(src='/javascripts/adapter.js')
+    script(src='/engine/vri-webrtc/client_vri/adapter.js')
+    script(src='/engine/vri-webrtc/client_vri/peerconnection.js')
+    script(src='/engine/vri-webrtc/client_vri/rtcengine.js')
+    script(src='/javascripts/chat_ui.js')
+  body
+    include embed

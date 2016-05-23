@@ -5,3 +5,4 @@ public/stylesheets/style.css
 public/assets/
 public/javascripts/adapter.js
 public/favicon.ico
+*.swp
